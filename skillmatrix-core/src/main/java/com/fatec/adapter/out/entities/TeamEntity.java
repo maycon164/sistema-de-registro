@@ -2,20 +2,18 @@ package com.fatec.adapter.out.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
+@Table(name = "teams")
 @Entity
-@Table(name = "users")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class UserEntity {
+@Data
+public class TeamEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,19 +22,23 @@ public class UserEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "is_active")
-    private Boolean isActive;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "created_at")
     private Date createdAt;
 
     @ManyToOne
-    private LabelEntity label;
+    private UserEntity leader;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<SnapshotEntity> snapshots;
+    @ManyToOne
+    private ClientEntity client;
+
+    @ManyToMany
+    @JoinTable(
+            name = "team_member",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserEntity> members;
 }
