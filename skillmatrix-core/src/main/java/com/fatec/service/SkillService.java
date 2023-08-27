@@ -1,9 +1,11 @@
 package com.fatec.service;
 
+import com.fatec.dataprovider.entities.LabelEntity;
 import com.fatec.dataprovider.entities.SkillEntity;
 import com.fatec.dataprovider.repository.SkillRepository;
 import com.fatec.dataprovider.specification.SkillsSpecifications;
 import com.fatec.dto.GetSkillsDTO;
+import com.fatec.dto.SkillDTO;
 import com.fatec.model.paginated.PaginatedSkillResult;
 import com.fatec.model.Skill;
 import com.fatec.utils.PaginationUtils;
@@ -31,6 +33,11 @@ public class SkillService {
                 .build();
     }
 
+    public Skill createNewSkill(SkillDTO skillDTO){
+        SkillEntity skillCreated = skillRepository.save(toSkillEntity(skillDTO));
+        return toSkillModel(skillCreated);
+    }
+
     private Skill toSkillModel(SkillEntity skillEntity){
         return Skill.builder()
                 .id(skillEntity.getId())
@@ -39,5 +46,11 @@ public class SkillService {
                 .build();
     }
 
-
+    private SkillEntity toSkillEntity(SkillDTO skillDTO){
+        return SkillEntity.builder()
+                .name(skillDTO.name())
+                .description(skillDTO.description())
+                .label(new LabelEntity(skillDTO.labelId(), null))
+                .build();
+    }
 }
