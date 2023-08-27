@@ -1,6 +1,6 @@
 package com.fatec.model;
 
-public enum LabelsEnum {
+public enum LabelEnum {
     FRONTEND,
     BACKEND,
     MOBILE,

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateUserDTO (
+public record UserDTO (
         @NotNull
         @NotEmpty
         String name,

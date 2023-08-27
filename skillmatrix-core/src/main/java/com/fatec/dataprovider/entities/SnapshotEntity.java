@@ -1,27 +1,26 @@
-package com.fatec.adapter.out.entities;
+package com.fatec.dataprovider.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "skills")
+import java.util.Date;
+
+@Table(name = "snapshots")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SkillEntity {
+public class SnapshotEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
-
     @ManyToOne
-    private LabelEntity label;
+    private UserEntity user;
+
+    @Column(name = "created_at")
+    private Date createdAt;
 }

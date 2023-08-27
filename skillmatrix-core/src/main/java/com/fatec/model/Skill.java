@@ -1,9 +1,12 @@
 package com.fatec.model;
 
-public record SkillModel(
+import lombok.Builder;
+
+@Builder
+public record Skill(
         Long id,
         String name,
         String description,
-        LabelModel label
+        Label label
 ) {
 }

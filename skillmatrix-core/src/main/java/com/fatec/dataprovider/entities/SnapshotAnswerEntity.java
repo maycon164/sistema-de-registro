@@ -1,4 +1,4 @@
-package com.fatec.adapter.out.entities;
+package com.fatec.dataprovider.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

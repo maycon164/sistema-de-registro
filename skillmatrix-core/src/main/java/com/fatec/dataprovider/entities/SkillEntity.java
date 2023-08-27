@@ -1,18 +1,16 @@
-package com.fatec.adapter.out.entities;
+package com.fatec.dataprovider.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
-@Table(name = "clients")
+@Table(name = "skills")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ClientEntity {
+public class SkillEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +22,6 @@ public class ClientEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "created_at")
-    private Date createdAt;
+    @ManyToOne
+    private LabelEntity label;
 }

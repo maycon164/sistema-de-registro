@@ -1,5 +1,6 @@
-package com.fatec.adapter.out.entities;
+package com.fatec.dataprovider.entities;
 
+import com.fatec.model.LabelEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class LabelEntity {
     private Long id;
 
     @Column(name = "label")
-    private String label;
+    @Enumerated(EnumType.STRING)
+    private LabelEnum label;
 }

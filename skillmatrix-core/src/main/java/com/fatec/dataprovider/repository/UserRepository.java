@@ -1,6 +1,6 @@
-package com.fatec.adapter.out.repository;
+package com.fatec.dataprovider.repository;
 
-import com.fatec.adapter.out.entities.UserEntity;
+import com.fatec.dataprovider.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
