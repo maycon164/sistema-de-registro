@@ -3,7 +3,7 @@ package com.fatec.dataprovider.specification;
 import com.fatec.dataprovider.entities.LabelEntity;
 import com.fatec.dataprovider.entities.SkillEntity;
 import com.fatec.dto.GetSkillsDTO;
-import com.fatec.model.LabelEnum;
+import com.fatec.model.enums.LabelEnum;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 

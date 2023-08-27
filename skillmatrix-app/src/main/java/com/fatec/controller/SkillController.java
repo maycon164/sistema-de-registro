@@ -1,7 +1,7 @@
 package com.fatec.controller;
 
 import com.fatec.dto.GetSkillsDTO;
-import com.fatec.model.PaginatedSkillResult;
+import com.fatec.model.paginated.PaginatedSkillResult;
 import com.fatec.service.SkillService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

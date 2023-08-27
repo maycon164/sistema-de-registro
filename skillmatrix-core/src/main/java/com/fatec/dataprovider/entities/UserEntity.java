@@ -1,5 +1,6 @@
 package com.fatec.dataprovider.entities;
 
+import com.fatec.model.enums.LabelEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

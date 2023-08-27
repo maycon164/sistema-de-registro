@@ -1,19 +1,20 @@
 package com.fatec.dto;
 
+import com.fatec.model.SkillFilterDTO;
 import com.fatec.model.enums.LabelEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
-public record GetSkillsDTO(
-        String search,
-        Boolean active,
-        String category,
-        @NotNull
+public record GetUsersDTO(
+    String search,
+    @NotNull
     @Positive
     Integer pageNumber,
-        Long roleId,
-
-        List<LabelEnum> labels
+    Boolean isAdmin,
+    Boolean active,
+    List<SkillFilterDTO> skills,
+    List<LabelEnum> labels
 ) { }
+

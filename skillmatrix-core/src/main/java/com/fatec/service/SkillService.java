@@ -4,8 +4,9 @@ import com.fatec.dataprovider.entities.SkillEntity;
 import com.fatec.dataprovider.repository.SkillRepository;
 import com.fatec.dataprovider.specification.SkillsSpecifications;
 import com.fatec.dto.GetSkillsDTO;
-import com.fatec.model.PaginatedSkillResult;
+import com.fatec.model.paginated.PaginatedSkillResult;
 import com.fatec.model.Skill;
+import com.fatec.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,13 +17,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SkillService {
 
-    private final Integer PAGE_SIZE = 10;
-
     private final SkillRepository skillRepository;
 
     public PaginatedSkillResult getAllSkills(GetSkillsDTO getRequestSkillsDTO){
         Specification<SkillEntity> spec = new SkillsSpecifications().buildSpecifications(getRequestSkillsDTO);
-        PageRequest pageRequest = PageRequest.of(getPageNumber(getRequestSkillsDTO.pageNumber()),PAGE_SIZE);
+        PageRequest pageRequest = PaginationUtils.getPageRequest(getRequestSkillsDTO.pageNumber());
 
         Page<Skill> pageableSkills = skillRepository.findAll(spec, pageRequest).map(this::toSkillModel);
 
@@ -40,8 +39,5 @@ public class SkillService {
                 .build();
     }
 
-    private Integer getPageNumber(Integer pageNumber){
-        return pageNumber - 1;
-    }
 
 }

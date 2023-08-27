@@ -1,7 +1,9 @@
 package com.fatec.controller;
 
 import com.fatec.dataprovider.entities.UserEntity;
+import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.UserDTO;
+import com.fatec.model.paginated.PaginatedUserResult;
 import com.fatec.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,8 @@ public class UsersController {
     public final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<List<UserEntity>> getAllUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<PaginatedUserResult> getAllUsers(@Valid GetUsersDTO getUsersDTO){
+        return ResponseEntity.ok(userService.getAllUsers(getUsersDTO));
     }
 
     @PostMapping()
