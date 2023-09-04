@@ -13,9 +13,11 @@ CREATE TABLE users(
     name TEXT,
     email TEXT,
     is_active BOOLEAN DEFAULT TRUE,
-    created_at DATE DEFAULT CURRENT_DATE,
     label_id INTEGER,
     profile_id INTEGER,
+
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 
     FOREIGN KEY (label_id) REFERENCES label(id),
     FOREIGN KEY (profile_id) REFERENCES profile(id)
@@ -26,6 +28,9 @@ CREATE TABLE skills (
     name TEXT,
     description TEXT,
     label_id INTEGER,
+
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 
     FOREIGN KEY (label_id) REFERENCES label(id)
 );

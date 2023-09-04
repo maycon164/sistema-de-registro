@@ -1,14 +1,14 @@
 package com.fatec.controller;
 
-import com.fatec.adapter.out.entities.UserEntity;
-import com.fatec.dto.CreateUserDTO;
+import com.fatec.dataprovider.entities.UserEntity;
+import com.fatec.dto.GetUsersDTO;
+import com.fatec.dto.UserDTO;
+import com.fatec.model.paginated.PaginatedUserResult;
 import com.fatec.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,13 +18,23 @@ public class UsersController {
     public final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<List<UserEntity>> getAllUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<PaginatedUserResult> getAllUsers(@Valid GetUsersDTO getUsersDTO){
+        return ResponseEntity.ok(userService.getAllUsers(getUsersDTO));
     }
 
     @PostMapping()
-    public ResponseEntity<UserEntity> insertNewUser(@Valid @RequestBody CreateUserDTO createUserDTO){
+    public ResponseEntity<UserEntity> insertNewUser(@Valid @RequestBody UserDTO createUserDTO){
         return ResponseEntity.ok(userService.insertNewUser(createUserDTO));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<UserEntity> updateUser(@PathVariable(value="id") Long id, @Valid @RequestBody UserDTO updateUserDTO){
+        System.out.println(updateUserDTO);
+        return ResponseEntity.ok(userService.updateUser(id, updateUserDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable(value="id") Long id){
+        return ResponseEntity.ok(userService.deleteUser(id));
+    }
 }

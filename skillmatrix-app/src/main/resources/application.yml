@@ -1,0 +1,24 @@
+# CONFIGURATIONS
+spring:
+  datasource:
+    url: ${db_url}
+    username: ${db_username}
+    password: ${db_password}
+
+  flyway:
+    locations: classpath:db/migration, classpath:db/testdata
+    baselineOnMigrate: true
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        globally_quoted_identifiers: true
+        globally_quoted_identifiers_skip_column_definitions: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+
+google:
+  clientId: 1008609354061-hq00k0otaiooh4evgquedqkntrhputai.apps.googleusercontent.com
+  baseUrl: https://www.googleapis.com/oauth2/v1/userinfo?access_token=
