@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Table(name = "skills")
 @Entity
@@ -26,4 +32,15 @@ public class SkillEntity {
 
     @ManyToOne
     private LabelEntity label;
+
+    @Column(name = "active")
+    private Boolean active;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

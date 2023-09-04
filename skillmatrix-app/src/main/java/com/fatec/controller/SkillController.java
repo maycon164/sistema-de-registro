@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/skills")
+@RequestMapping("skills")
 @RequiredArgsConstructor
 public class SkillController {
 
@@ -27,4 +27,15 @@ public class SkillController {
         return ResponseEntity.ok(skillService.createNewSkill(skillDTO));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Skill> updateSkill(@PathVariable(value="id") Long id, @RequestBody @Valid SkillDTO skillDTO){
+        return ResponseEntity.ok(skillService.updateSkill(id, skillDTO));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deactivateSkill(@PathVariable(value="id") Long id){
+        return ResponseEntity.ok(skillService.deactivateSkill(id));
+    }
+
 }
+

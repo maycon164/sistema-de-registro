@@ -7,6 +7,7 @@ public record Skill(
         Long id,
         String name,
         String description,
-        Label label
+        Label label,
+        Boolean active
 ) {
 }

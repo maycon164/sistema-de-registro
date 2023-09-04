@@ -1,12 +1,17 @@
 package com.fatec.dataprovider.entities;
 
 import com.fatec.model.enums.LabelEnum;
+import com.fatec.model.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -31,13 +36,22 @@ public class UserEntity {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "created_at")
-    private Date createdAt;
-
     @ManyToOne
     private LabelEntity label;
 
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<SnapshotEntity> snapshots;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

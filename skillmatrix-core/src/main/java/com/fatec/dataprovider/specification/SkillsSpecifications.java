@@ -20,9 +20,11 @@ public class SkillsSpecifications {
 
     private Specification<SkillEntity> searchName(String search){
         if(isNull(search) || search.isEmpty()) return null;
-
         String finalSearch = String.format("%%%s%%",search.toLowerCase());
-        return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), finalSearch);
+        return (root, query, criteriaBuilder)-> {
+            //query.orderBy(criteriaBuilder.desc(root.get("updatedAt")));
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), finalSearch);
+        };
     }
 
     private Specification<SkillEntity> hasLabels(List<LabelEnum> labels){
