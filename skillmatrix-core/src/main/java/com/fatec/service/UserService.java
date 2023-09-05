@@ -75,7 +75,7 @@ public class UserService {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
-                .role(RoleEnum.ADMIN)
+                .role(user.getRole())
                 .label(new Label(user.getLabel().getId(), user.getLabel().getLabel(), null))
                 .isActive(user.getIsActive())
                 .build();

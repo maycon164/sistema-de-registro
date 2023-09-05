@@ -31,8 +31,7 @@ public class TokenService {
                 .withIssuer(issuer)
                 .withSubject(user.email())
                 .withClaim(NAME_CLAIM, user.name())
-                .withClaim(ROLE_CLAIM, RoleEnum.ADMIN.toString())
-                //.withClaim(ROLE_CLAIM, String.valueOf(user.role()))
+                .withClaim(ROLE_CLAIM, user.role().toString())
                 .withExpiresAt(expirationDate())
                 .sign(algorithm);
         return token;
@@ -46,7 +45,7 @@ public class TokenService {
         return User.builder()
                 .name(decodedJWT.getClaim(NAME_CLAIM).toString())
                 .email(decodedJWT.getSubject())
-                .role(RoleEnum.valueOf(decodedJWT.getClaim(ROLE_CLAIM).toString()))
+                .role(RoleEnum.valueOf(decodedJWT.getClaim(ROLE_CLAIM).asString()))
                 .build();
 
     }
