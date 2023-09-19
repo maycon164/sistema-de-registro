@@ -1,15 +1,12 @@
 package com.fatec.controller;
 
-import com.fatec.dto.LabelSkillResponse;
+import com.fatec.dto.UpdateLabelDTO;
 import com.fatec.model.Label;
-import com.fatec.model.Skill;
 import com.fatec.service.LabelService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +20,12 @@ public class LabelController {
     @GetMapping
     public List<Label> getLabels(){
         return labelService.getLabels();
+    }
+
+    @PutMapping("/{labelId}")
+    public ResponseEntity updteLabel(@PathVariable(name = "labelId") Long labelId, @Valid @RequestBody UpdateLabelDTO updateLabel){
+        labelService.updateLabel(labelId, updateLabel);
+        return ResponseEntity.accepted().build();
     }
 
 }

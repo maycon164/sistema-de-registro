@@ -25,7 +25,6 @@ import static java.util.Objects.isNull;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
-    private final AuthService authService;
     private static final String ROLE_PREFIX = "ROLE_";
 
     @Override
