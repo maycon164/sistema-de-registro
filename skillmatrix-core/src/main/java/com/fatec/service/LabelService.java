@@ -4,16 +4,10 @@ import com.fatec.dataprovider.entities.LabelEntity;
 import com.fatec.dataprovider.entities.SkillEntity;
 import com.fatec.dataprovider.repository.LabelRepository;
 import com.fatec.dataprovider.repository.SkillRepository;
-import com.fatec.dto.InfoResponseDTO;
-import com.fatec.dto.LabelSkillInfo;
-import com.fatec.dto.LabelSkillResponse;
-import com.fatec.dto.LabelUserInfo;
-import com.fatec.exceptions.NotFound;
+import com.fatec.dto.*;
 import com.fatec.model.Label;
 import com.fatec.model.Skill;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,6 +35,13 @@ public class LabelService {
         return result;
     }
 
+    public void updateLabel(Long labelId, UpdateLabelDTO updateLabelDTO ) {
+        updateLabelDTO.skills().forEach(skillId -> {
+            SkillEntity skillEntity = skillRepository.findById(skillId).get();
+            skillEntity.setLabel(new LabelEntity(labelId, null));
+            skillRepository.save(skillEntity);
+        });
+    }
 
     private Label toLabelModel(LabelEntity label){
         return new Label(
