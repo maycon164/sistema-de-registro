@@ -7,10 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Table(name = "skills")
 @Entity
@@ -21,7 +20,7 @@ import java.time.LocalDateTime;
 public class SkillEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "increment")
     private Long id;
 
     @Column(name = "name")
@@ -36,9 +35,9 @@ public class SkillEntity {
     @Column(name = "active")
     private Boolean active;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
     @UpdateTimestamp
