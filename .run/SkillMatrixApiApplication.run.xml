@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SkillMatrixApiApplication" type="Application" factoryName="Application">
+    <envs>
+      <env name="db_url" value="jdbc:postgresql://localhost:5432/skillMatrixJava" />
+      <env name="db_username" value="postgres" />
+      <env name="db_password" value="9090" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.fatec.SkillMatrixApiApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -29,6 +29,8 @@ public class LabelService {
             result.add(new Label(label.getId(), label.getLabel(), skills.stream().map(skill -> Skill.builder()
                     .id(skill.getId())
                     .name(skill.getName())
+                    .description(skill.getDescription())
+                    .labelValue(skill.getLabel().getLabel())
                     .build()).toList()));
         }
 
