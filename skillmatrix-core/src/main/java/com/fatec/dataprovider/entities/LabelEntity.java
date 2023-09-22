@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class LabelEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     private Long id;
 
     @Column(name = "label")
