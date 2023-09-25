@@ -16,4 +16,5 @@ public interface SkillRepository extends JpaRepository<SkillEntity, Long>, JpaSp
             WHERE s.label.id = :id
             """)
     List<SkillEntity> findAllByLabelId(Long id);
+
 }
