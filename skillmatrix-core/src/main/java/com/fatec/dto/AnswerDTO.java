@@ -14,5 +14,4 @@ public record AnswerDTO(
         boolean willingToAnswerQuestions,
         boolean willingToPresent,
         boolean workedWithTech
-) {
-}
+) { }

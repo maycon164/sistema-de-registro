@@ -19,6 +19,7 @@ public class TokenService {
 
     private String secret = "SKILL_MATRIX_API";
 
+    private String ID_CLAIM = "id";
     private String NAME_CLAIM = "name";
     private String ROLE_CLAIM = "role";
 
@@ -30,6 +31,7 @@ public class TokenService {
         String token = JWT.create()
                 .withIssuer(issuer)
                 .withSubject(user.email())
+                .withClaim(ID_CLAIM, user.id())
                 .withClaim(NAME_CLAIM, user.name())
                 .withClaim(ROLE_CLAIM, user.role().toString())
                 .withExpiresAt(expirationDate())
@@ -43,6 +45,7 @@ public class TokenService {
         DecodedJWT decodedJWT = verifier.verify(token);
 
         return User.builder()
+                .id(Long.parseLong(decodedJWT.getClaim(ID_CLAIM).toString()))
                 .name(decodedJWT.getClaim(NAME_CLAIM).toString())
                 .email(decodedJWT.getSubject())
                 .role(RoleEnum.valueOf(decodedJWT.getClaim(ROLE_CLAIM).asString()))
