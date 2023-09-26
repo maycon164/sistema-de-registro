@@ -6,10 +6,9 @@ import com.fatec.dataprovider.repository.UserRepository;
 import com.fatec.dataprovider.specification.UserSpecifications;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.UserDTO;
-import com.fatec.exceptions.NotFound;
+import com.fatec.exceptions.UserNotFound;
 import com.fatec.model.Label;
 import com.fatec.model.User;
-import com.fatec.model.enums.RoleEnum;
 import com.fatec.model.paginated.PaginatedUserResult;
 import com.fatec.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,7 @@ public class UserService {
 
     public User findByEmail(String email){
         var userEntity = userRepository.findByEmail(email);
-        if(userEntity == null) throw new NotFound();
+        if(userEntity == null) throw new UserNotFound();
         return toUserModel(userEntity);
     }
 
@@ -49,7 +48,7 @@ public class UserService {
     }
 
     public UserEntity updateUser(Long id, UserDTO updateUserDTO) {
-        var user = userRepository.findById(id).orElseThrow(NotFound::new);
+        var user = userRepository.findById(id).orElseThrow(UserNotFound::new);
 
         user.setName(updateUserDTO.name());
         user.setEmail(updateUserDTO.email());
@@ -59,7 +58,7 @@ public class UserService {
     }
 
     public String deleteUser(Long id){
-        UserEntity user = userRepository.findById(id).orElseThrow(NotFound::new);
+        UserEntity user = userRepository.findById(id).orElseThrow(UserNotFound::new);
         if(user.getIsActive()){
             user.setIsActive(false);
             userRepository.save(user);

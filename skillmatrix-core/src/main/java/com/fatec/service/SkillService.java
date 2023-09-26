@@ -7,6 +7,8 @@ import com.fatec.dataprovider.repository.SkillRepository;
 import com.fatec.dataprovider.specification.SkillsSpecifications;
 import com.fatec.dto.GetSkillsDTO;
 import com.fatec.dto.SkillDTO;
+import com.fatec.exceptions.LabelNotFound;
+import com.fatec.exceptions.SkillNotFound;
 import com.fatec.model.Label;
 import com.fatec.model.paginated.PaginatedSkillResult;
 import com.fatec.model.Skill;
@@ -43,8 +45,8 @@ public class SkillService {
     }
 
     public Skill updateSkill(Long id, SkillDTO skillDTO){
-        SkillEntity skill = skillRepository.findById(id).orElseThrow(NotFound::new);
-        LabelEntity label = labelRepository.findById(skillDTO.labelId()).orElseThrow(NotFound::new);
+        SkillEntity skill = skillRepository.findById(id).orElseThrow(SkillNotFound::new);
+        LabelEntity label = labelRepository.findById(skillDTO.labelId()).orElseThrow(LabelNotFound::new);
 
         skill.setDescription(skillDTO.description());
         skill.setName(skillDTO.name());
@@ -56,7 +58,7 @@ public class SkillService {
     }
 
     public String deactivateSkill(Long id) {
-        SkillEntity skill = skillRepository.findById(id).orElseThrow(NotFound::new);
+        SkillEntity skill = skillRepository.findById(id).orElseThrow(SkillNotFound::new);
 
         if(skill.getActive()){
             skill.setActive(false);
