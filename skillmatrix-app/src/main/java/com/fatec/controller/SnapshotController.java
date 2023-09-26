@@ -2,6 +2,7 @@ package com.fatec.controller;
 
 import com.fatec.dataprovider.entities.UserEntity;
 import com.fatec.dto.SnapshotDTO;
+import com.fatec.model.Snapshot;
 import com.fatec.model.User;
 import com.fatec.service.SnapshotService;
 import com.fatec.service.UserService;
@@ -10,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +29,16 @@ public class SnapshotController {
 
         snapshotService.saveSnapshot(user, snapshot);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping()
+    public ResponseEntity<Snapshot> getUserSnapshot(@RequestParam("last") String last){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!last.isEmpty()) {
+            return ResponseEntity.ok(snapshotService.getSnapshot(user));
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }

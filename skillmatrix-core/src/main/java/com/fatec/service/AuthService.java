@@ -3,7 +3,7 @@ package com.fatec.service;
 import com.fatec.dto.GoogleInfoDTO;
 import com.fatec.dto.LoginDTO;
 import com.fatec.exceptions.GoogleLoginException;
-import com.fatec.model.AuthResponseDTO;
+import com.fatec.dto.AuthResponseDTO;
 import com.fatec.model.User;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;

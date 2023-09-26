@@ -3,7 +3,7 @@ package com.fatec.dataprovider.specification;
 import com.fatec.dataprovider.entities.LabelEntity;
 import com.fatec.dataprovider.entities.UserEntity;
 import com.fatec.dto.GetUsersDTO;
-import com.fatec.model.SkillFilterDTO;
+import com.fatec.dto.SkillFilterDTO;
 import com.fatec.model.enums.LabelEnum;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;

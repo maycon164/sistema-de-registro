@@ -1,4 +1,4 @@
-package com.fatec.model;
+package com.fatec.dto;
 
 import com.fatec.model.enums.LevelEnum;
 import jakarta.validation.constraints.NotNull;

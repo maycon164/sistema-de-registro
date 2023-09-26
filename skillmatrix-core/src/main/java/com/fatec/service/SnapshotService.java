@@ -9,6 +9,7 @@ import com.fatec.dataprovider.repository.SnapshotRepository;
 import com.fatec.dto.AnswerDTO;
 import com.fatec.dto.SnapshotDTO;
 import com.fatec.exceptions.SnapshotException;
+import com.fatec.model.Snapshot;
 import com.fatec.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,10 @@ public class SnapshotService {
         }
     }
 
+    public Snapshot getSnapshot(User user){
+        return toSnapshotModel(snapshotRepository.findLastSnapshot(user.id()));
+    }
+
     private SnapshotAnswerEntity toAnswerEntity(AnswerDTO answerDTO){
 
         return SnapshotAnswerEntity.builder()
@@ -58,4 +63,23 @@ public class SnapshotService {
                         .build();
     }
 
+    private Snapshot toSnapshotModel(SnapshotEntity snapshotEntity){
+        List<AnswerDTO> answers = snapshotEntity.getAnswers().stream().map(snap ->
+                new AnswerDTO(
+                        snap.getSkill().getLabel().getLabel().toString(),
+                        snap.getRating(),
+                        snap.getSkill().getId(),
+                        snap.getSkill().getName(),
+                        snap.getWillingToAnswerQuestions(),
+                        snap.getWillingToPresent(),
+                        snap.getWorkedWithTech()
+                        ))
+                .toList();
+
+        return new Snapshot(
+                snapshotEntity.getId(),
+                snapshotEntity.getCreatedAt(),
+                answers
+        );
+    }
 }

@@ -1,6 +1,5 @@
 package com.fatec.dto;
 
-import com.fatec.model.SkillFilterDTO;
 import com.fatec.model.enums.LabelEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
