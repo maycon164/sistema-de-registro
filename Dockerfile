@@ -12,6 +12,6 @@ EXPOSE 8080
 
 # Copy the application jar from the build container
 WORKDIR /app
-COPY --from=0 /build/unicarga-app/target/unicarga-app-*.jar ./unicarga-app.jar
+COPY --from=0 /build/skillmatrix-app/target/skillmatrix-app-*.jar ./app.jar
 
-ENTRYPOINT ["java", "-jar", "unicarga-app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

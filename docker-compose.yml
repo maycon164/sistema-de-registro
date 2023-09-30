@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    container_name: SKILLMATRIX-BACKEND
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/skillMatrix
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+
+  postgres:
+    container_name: skillMatrix-db
+    image: postgres:14
+    environment:
+      POSTGRES_DB: skillMatrix
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
