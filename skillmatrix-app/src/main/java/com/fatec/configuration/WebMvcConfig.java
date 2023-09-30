@@ -13,8 +13,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        String baseFrontUrl = System.getenv("url_frontend");
         registry.addMapping("/**")
-                .allowedOrigins("https://skill-matrix-frontend-ocg0wzzpy-maycon164s-projects.vercel.app")
+                .allowedOrigins(baseFrontUrl)
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("Authorization", "Content-Type")
                 .maxAge(3600);
