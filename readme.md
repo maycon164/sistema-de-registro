@@ -13,16 +13,28 @@ then you need to set some environment variables
     </thead>
     <tbody>
         <tr>
-            <td>db_url</td>
+            <td>DB_URL</td>
             <td>jdbc:postgresql://localhost:5432/skillMatrixJava</td>
         </tr>
         <tr>
-            <td>db_username</td>
+            <td>DB_USERNAME</td>
             <td>postgres</td>
         </tr>
         <tr>
-            <td>db_password</td>
+            <td>DB_PASSWORD</td>
             <td>postgres</td>
+        </tr>
+        <tr>
+            <td>DB_NAME</td>
+            <td>production</td>
+        </tr>
+        <tr>
+            <td>INSTANCE_CONNECTION_NAME</td>
+            <td>production</td>
+        </tr>
+        <tr>
+            <td>INSTANCE_UNIX_SOCKET</td>
+             <td>production</td>
         </tr>
     </tbody>
 </table>

@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        String baseFrontUrl = System.getenv("url_frontend");
+        String baseFrontUrl = System.getenv("URL_FRONTEND");
         registry.addMapping("/**")
                 .allowedOrigins(baseFrontUrl)
                 .allowedMethods("GET", "POST", "PUT", "DELETE")

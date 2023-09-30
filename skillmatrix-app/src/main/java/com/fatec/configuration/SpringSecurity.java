@@ -37,7 +37,7 @@ public class SpringSecurity {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        String baseFrontUrl = System.getenv("url_frontend");
+        String baseFrontUrl = System.getenv("URL_FRONTEND");
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(Objects.requireNonNull(baseFrontUrl)));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
