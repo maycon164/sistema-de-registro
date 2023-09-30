@@ -1,5 +1,6 @@
 package com.fatec.configuration;
 
+import com.google.api.client.util.Value;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,9 @@ public class SpringSecurity {
 
     private final JwtFilter internalFilter;
 
+    @Value("${url_frontend}")
+    private final String URL_FRONTEND;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
@@ -36,7 +40,7 @@ public class SpringSecurity {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        String baseFrontUrl = "http://localhost:5173";
+        String baseFrontUrl = URL_FRONTEND;
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(Objects.requireNonNull(baseFrontUrl)));
