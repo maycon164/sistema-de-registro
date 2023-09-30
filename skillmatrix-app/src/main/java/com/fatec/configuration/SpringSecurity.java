@@ -24,9 +24,6 @@ public class SpringSecurity {
 
     private final JwtFilter internalFilter;
 
-    @Value("${url_frontend}")
-    private final String URL_FRONTEND;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
@@ -40,8 +37,7 @@ public class SpringSecurity {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        String baseFrontUrl = URL_FRONTEND;
-
+        String baseFrontUrl = System.getenv("url_frontend");
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(Objects.requireNonNull(baseFrontUrl)));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
