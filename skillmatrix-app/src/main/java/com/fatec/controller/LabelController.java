@@ -6,6 +6,7 @@ import com.fatec.service.LabelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class LabelController {
     }
 
     @PutMapping("/{labelId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER', 'COLLABORATOR')")
     public ResponseEntity updteLabel(@PathVariable(name = "labelId") Long labelId, @Valid @RequestBody UpdateLabelDTO updateLabel){
         labelService.updateLabel(labelId, updateLabel);
         return ResponseEntity.accepted().build();

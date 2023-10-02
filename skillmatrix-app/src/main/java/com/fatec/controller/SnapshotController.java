@@ -32,6 +32,7 @@ public class SnapshotController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER', 'COLLABORATOR')")
     public ResponseEntity<Snapshot> getUserSnapshot(@RequestParam("last") String last){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

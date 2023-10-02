@@ -19,23 +19,26 @@ public class UsersController {
     public final UserService userService;
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER')")
     public ResponseEntity<PaginatedUserResult> getAllUsers(@Valid GetUsersDTO getUsersDTO){
         return ResponseEntity.ok(userService.getAllUsers(getUsersDTO));
     }
 
     @PostMapping()
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER')")
     public ResponseEntity<UserEntity> insertNewUser(@Valid @RequestBody UserDTO createUserDTO){
         return ResponseEntity.ok(userService.insertNewUser(createUserDTO));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER')")
     public ResponseEntity<UserEntity> updateUser(@PathVariable(value="id") Long id, @Valid @RequestBody UserDTO updateUserDTO){
         System.out.println(updateUserDTO);
         return ResponseEntity.ok(userService.updateUser(id, updateUserDTO));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER')")
     public ResponseEntity<String> deleteUser(@PathVariable(value="id") Long id){
         return ResponseEntity.ok(userService.deleteUser(id));
     }
