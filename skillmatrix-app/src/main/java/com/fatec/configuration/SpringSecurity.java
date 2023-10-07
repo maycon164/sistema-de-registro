@@ -29,13 +29,6 @@ public class SpringSecurity {
         return http
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
-                .authorizeHttpRequests()
-                .requestMatchers(
-                        "/swagger-ui/**",
-                        "/api-docs/**",
-                        "/v3/**"
-                ).permitAll()
-                .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(internalFilter, UsernamePasswordAuthenticationFilter.class)

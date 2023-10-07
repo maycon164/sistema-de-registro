@@ -28,8 +28,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private static final String ROLE_PREFIX = "ROLE_";
-    private final List<String> unauthorizedPaths = List.of(
-            "/login",
+    private final List<String> unprotectedPaths = List.of(
+            "/auth/login",
             "/swagger-ui",
             "/api-docs",
             "/v3/api-docs"
@@ -37,7 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if(unauthorizedPaths.stream().anyMatch(path -> request.getServletPath().contains(path))) {
+        if(unprotectedPaths.stream().anyMatch(path -> request.getServletPath().contains(path))) {
             filterChain.doFilter(request, response);
             return;
         }
