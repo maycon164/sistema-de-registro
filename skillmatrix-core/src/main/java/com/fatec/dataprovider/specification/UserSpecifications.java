@@ -1,9 +1,11 @@
 package com.fatec.dataprovider.specification;
 
 import com.fatec.dataprovider.entities.LabelEntity;
+import com.fatec.dataprovider.entities.SnapshotEntity;
 import com.fatec.dataprovider.entities.UserEntity;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.SkillFilterDTO;
+import com.fatec.model.Skill;
 import com.fatec.model.enums.LabelEnum;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
@@ -38,9 +40,14 @@ public class UserSpecifications {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("isActive"), isActive);
     }
 
-    private Specification<UserEntity> hasSkills(List<SkillFilterDTO> skills){
-        throw new RuntimeException("#Method not impemented");
-    }
+    /*private Specification<UserEntity> hasSkills(List<SkillFilterDTO> skills){
+        if(isNull(skills) || skills.isEmpty()) return null;
+
+        return (root, query, criteriaBuilder) -> {
+            Join<UserEntity, List<SnapshotEntity>> snapshotEntityJoin = root.join("snapshots");
+            return criteriaBuilder.in();
+        };
+    }*/
 
     private Specification<UserEntity> hasLabels(List<LabelEnum> labels){
         if(isNull(labels) || labels.isEmpty()) return null;

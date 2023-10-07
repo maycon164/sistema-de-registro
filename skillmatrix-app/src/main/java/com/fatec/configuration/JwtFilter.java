@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -26,11 +28,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private static final String ROLE_PREFIX = "ROLE_";
-
+    private final List<String> unauthorizedPaths = List.of(
+            "/login",
+            "/swagger-ui",
+            "/api-docs",
+            "/v3/api-docs"
+    );
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if(request.getServletPath().contains("/login")) {
+        if(unauthorizedPaths.stream().anyMatch(path -> request.getServletPath().contains(path))) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -6,6 +6,7 @@ import com.fatec.model.Snapshot;
 import com.fatec.model.User;
 import com.fatec.service.SnapshotService;
 import com.fatec.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("snapshot")
 @RequiredArgsConstructor
+@Tag(name = "snapshot")
 public class SnapshotController {
 
     private final SnapshotService snapshotService;

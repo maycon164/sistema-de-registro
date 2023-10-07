@@ -3,6 +3,7 @@ package com.fatec.controller;
 import com.fatec.dto.UpdateLabelDTO;
 import com.fatec.model.Label;
 import com.fatec.service.LabelService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/labels")
 @RequiredArgsConstructor
+@Tag(name = "label")
 public class LabelController {
 
     private final LabelService labelService;

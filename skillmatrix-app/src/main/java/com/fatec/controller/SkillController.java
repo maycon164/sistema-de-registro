@@ -5,6 +5,7 @@ import com.fatec.dto.SkillDTO;
 import com.fatec.model.Skill;
 import com.fatec.model.paginated.PaginatedSkillResult;
 import com.fatec.service.SkillService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("skills")
 @RequiredArgsConstructor
+@Tag(name = "skills")
 public class SkillController {
 
     private final SkillService skillService;

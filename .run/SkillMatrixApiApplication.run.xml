@@ -1,9 +1,14 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SkillMatrixApiApplication" type="Application" factoryName="Application">
     <envs>
-      <env name="db_password" value="9090" />
-      <env name="db_url" value="jdbc:postgresql://localhost:5432/skillMatrix" />
-      <env name="db_username" value="postgres" />
+      <env name="DB_NAME" value="skillMatrix" />
+      <env name="DB_PASSWORD" value="9090" />
+      <env name="DB_URL" value="jdbc:postgresql://localhost:5432/skillMatrix" />
+      <env name="DB_USERNAME" value="postgres" />
+      <env name="INSTANCE_CONNECTION_NAME" value="" />
+      <env name="INSTANCE_UNIX_SOCKET" value="" />
+      <env name="PROFILE" value="DEV" />
+      <env name="URL_FRONTEND" value="http://localhost:5173" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.fatec.SkillMatrixApiApplication" />
     <module name="skillmatrix-app" />

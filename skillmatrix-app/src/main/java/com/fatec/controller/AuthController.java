@@ -3,6 +3,7 @@ package com.fatec.controller;
 import com.fatec.dto.LoginDTO;
 import com.fatec.dto.AuthResponseDTO;
 import com.fatec.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("auth")
 @RequiredArgsConstructor
+@Tag(name = "auth")
 public class AuthController {
 
     private final AuthService authService;
