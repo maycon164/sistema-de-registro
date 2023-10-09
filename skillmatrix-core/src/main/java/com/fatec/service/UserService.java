@@ -25,7 +25,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     public PaginatedUserResult getAllUsers(GetUsersDTO getUsersDTO){
-
         Specification<UserEntity> spec = new UserSpecifications().buildSpecification(getUsersDTO);
         PageRequest pageRequest = PaginationUtils.getPageRequest(getUsersDTO.pageNumber());
         Page<User> pageableUsers = userRepository.findAll(spec, pageRequest).map(this::toUserModel);

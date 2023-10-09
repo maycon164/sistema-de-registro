@@ -31,7 +31,7 @@ public class SkillEntity {
 
     @ManyToOne
     private LabelEntity label;
-
+    
     @Column(name = "active")
     private Boolean active;
 

@@ -20,6 +20,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SkillService {
@@ -37,6 +39,10 @@ public class SkillService {
                 .skills(pageableSkills.getContent())
                 .totalPages(pageableSkills.getTotalPages())
                 .build();
+    }
+
+    public List<Skill> getAllSkillOptions() {
+        return skillRepository.findAll().stream().map(this::toSkillModel).toList();
     }
 
     public Skill createNewSkill(SkillDTO skillDTO){
@@ -76,6 +82,7 @@ public class SkillService {
                 .name(skillEntity.getName())
                 .active(skillEntity.getActive())
                 .label(new Label(skillEntity.getLabel().getId(), skillEntity.getLabel().getLabel(), null))
+                .labelValue(skillEntity.getLabel().getLabel())
                 .description(skillEntity.getDescription())
                 .build();
     }

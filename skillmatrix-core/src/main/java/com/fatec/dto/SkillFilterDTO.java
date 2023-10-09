@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 public record SkillFilterDTO(
         @NotNull
         @Positive
-        Integer skillId,
+        Integer id,
         @NotNull
         LevelEnum level
 ){ }

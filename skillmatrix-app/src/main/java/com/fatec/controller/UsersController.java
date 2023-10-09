@@ -1,6 +1,8 @@
 package com.fatec.controller;
 
 import com.fatec.dataprovider.entities.UserEntity;
+import com.fatec.dataprovider.repository.ViewUserSnapshotRepository;
+import com.fatec.dataprovider.view.ViewUserAndSnapshot;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.UserDTO;
 import com.fatec.model.paginated.PaginatedUserResult;
@@ -12,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("users")
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
 
     public final UserService userService;
+    public final ViewUserSnapshotRepository viewUserSnapshotRepository;
 
     @GetMapping()
     @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER')")
@@ -43,5 +48,13 @@ public class UsersController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER')")
     public ResponseEntity<String> deleteUser(@PathVariable(value="id") Long id){
         return ResponseEntity.ok(userService.deleteUser(id));
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<List<ViewUserAndSnapshot>> test(){
+        //return ResponseEntity.ok(List.of());
+        var result = viewUserSnapshotRepository.findAll();
+        System.out.println(result);
+        return ResponseEntity.ok(result);
     }
 }

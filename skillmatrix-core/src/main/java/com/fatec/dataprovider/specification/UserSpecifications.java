@@ -1,25 +1,35 @@
 package com.fatec.dataprovider.specification;
 
-import com.fatec.dataprovider.entities.LabelEntity;
-import com.fatec.dataprovider.entities.SnapshotEntity;
-import com.fatec.dataprovider.entities.UserEntity;
+import com.fatec.dataprovider.entities.*;
+import com.fatec.dataprovider.repository.ViewUserSnapshotRepository;
+import com.fatec.dataprovider.view.ViewUserAndSnapshot;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.SkillFilterDTO;
 import com.fatec.model.Skill;
 import com.fatec.model.enums.LabelEnum;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Predicate;
+import com.fatec.model.enums.LevelEnum;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.isNull;
 
+@RequiredArgsConstructor
 public class UserSpecifications {
+
+    private final ViewUserSnapshotRepository viewUserSnapshotRepository;
     public Specification<UserEntity> buildSpecification(GetUsersDTO getUsersDTO){
         return Specification.where(searchFor(getUsersDTO.search()))
                 .and(searchForIsActive(getUsersDTO.active()))
+                .and(hasSkills(getUsersDTO.getSkillFilter()))
                 .and(hasLabels(getUsersDTO.labels()));
+
     }
 
     private Specification<UserEntity> searchFor(String search){
@@ -40,14 +50,14 @@ public class UserSpecifications {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("isActive"), isActive);
     }
 
-    /*private Specification<UserEntity> hasSkills(List<SkillFilterDTO> skills){
+    private Specification<UserEntity> hasSkills(List<SkillFilterDTO> skills){
         if(isNull(skills) || skills.isEmpty()) return null;
 
-        return (root, query, criteriaBuilder) -> {
-            Join<UserEntity, List<SnapshotEntity>> snapshotEntityJoin = root.join("snapshots");
-            return criteriaBuilder.in();
+        return (root, query, cb) -> {
+            List<Long> userIds = withSkillFilters(skills);
+            return  root.get("id").in(userIds);
         };
-    }*/
+    }
 
     private Specification<UserEntity> hasLabels(List<LabelEnum> labels){
         if(isNull(labels) || labels.isEmpty()) return null;
@@ -56,5 +66,24 @@ public class UserSpecifications {
             return criteriaBuilder.in(label.get("label")).value(labels);
         };
     }
+    private List<Long> withSkillFilters(List<SkillFilterDTO> filters) {
+        Specification<ViewUserAndSnapshot> spec  = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
+            for (SkillFilterDTO filter : filters) {
+                Predicate filterPredicate = criteriaBuilder.and(
+                        criteriaBuilder.equal(root.get("skillId"), filter.id()),
+                        criteriaBuilder.equal(root.get("level"), filter.level())
+                );
+                predicates.add(filterPredicate);
+            }
+
+            // Combine all predicates with OR to create the WHERE clause
+            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+        };
+
+        var result = viewUserSnapshotRepository.findAll(spec);
+        System.out.println(result);
+        return result.stream().map(ViewUserAndSnapshot::getUserId).toList();
+    }
 }

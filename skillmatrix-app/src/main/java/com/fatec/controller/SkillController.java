@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("skills")
 @RequiredArgsConstructor
@@ -24,6 +26,11 @@ public class SkillController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER', 'COLLABORATOR')")
     public ResponseEntity<PaginatedSkillResult> getAllSkills(@Valid GetSkillsDTO getSkillsDTO) {
         return ResponseEntity.ok(skillService.getAllSkills(getSkillsDTO));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Skill>> getAllSkillsOptions() {
+        return ResponseEntity.ok(skillService.getAllSkillOptions());
     }
 
     @PostMapping()
