@@ -5,6 +5,7 @@ import com.fatec.dataprovider.repository.ViewUserSnapshotRepository;
 import com.fatec.dataprovider.view.ViewUserAndSnapshot;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.UserDTO;
+import com.fatec.model.User;
 import com.fatec.model.paginated.PaginatedUserResult;
 import com.fatec.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,12 +24,17 @@ import java.util.List;
 public class UsersController {
 
     public final UserService userService;
-    public final ViewUserSnapshotRepository viewUserSnapshotRepository;
 
     @GetMapping()
     @PreAuthorize("hasAnyRole('ADMIN', 'TEAM_LEADER')")
     public ResponseEntity<PaginatedUserResult> getAllUsers(@Valid GetUsersDTO getUsersDTO){
         return ResponseEntity.ok(userService.getAllUsers(getUsersDTO));
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, TEAM_LEADER')")
+    public ResponseEntity<User> getUserInfo(@PathVariable(value = "id") Long userId){
+        return ResponseEntity.ok(userService.getUserInfo(userId));
     }
 
     @PostMapping()
@@ -50,11 +56,4 @@ public class UsersController {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
-    @GetMapping("/info")
-    public ResponseEntity<List<ViewUserAndSnapshot>> test(){
-        //return ResponseEntity.ok(List.of());
-        var result = viewUserSnapshotRepository.findAll();
-        System.out.println(result);
-        return ResponseEntity.ok(result);
-    }
 }

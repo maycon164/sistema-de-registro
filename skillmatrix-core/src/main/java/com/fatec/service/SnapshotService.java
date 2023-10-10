@@ -74,7 +74,8 @@ public class SnapshotService {
                         snap.getSkill().getName(),
                         snap.getWillingToAnswerQuestions(),
                         snap.getWillingToPresent(),
-                        snap.getWorkedWithTech()
+                        snap.getWorkedWithTech(),
+                        null
                         ))
                 .toList();
 

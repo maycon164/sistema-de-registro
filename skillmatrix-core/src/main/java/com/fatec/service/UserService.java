@@ -1,14 +1,18 @@
 package com.fatec.service;
 
 import com.fatec.dataprovider.entities.LabelEntity;
+import com.fatec.dataprovider.entities.SnapshotEntity;
 import com.fatec.dataprovider.entities.UserEntity;
 import com.fatec.dataprovider.repository.UserRepository;
 import com.fatec.dataprovider.specification.UserSpecifications;
+import com.fatec.dto.AnswerDTO;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.UserDTO;
 import com.fatec.exceptions.UserNotFound;
 import com.fatec.model.Label;
+import com.fatec.model.Snapshot;
 import com.fatec.model.User;
+import com.fatec.model.enums.LevelEnum;
 import com.fatec.model.paginated.PaginatedUserResult;
 import com.fatec.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.logging.Level;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +47,10 @@ public class UserService {
         var userEntity = userRepository.findByEmail(email);
         if(userEntity == null) throw new UserNotFound();
         return toUserModel(userEntity);
+    }
+
+    public User getUserInfo(Long userId){
+        return toUserModel(userRepository.findById(userId).orElseThrow(UserNotFound::new));
     }
 
     public UserEntity insertNewUser(UserDTO createUserDTO){
@@ -76,9 +87,36 @@ public class UserService {
                 .email(user.getEmail())
                 .role(user.getRole())
                 .label(new Label(user.getLabel().getId(), user.getLabel().getLabel(), null))
+                .snapshots(user.getSnapshots().stream().map(this::toSnapshot).toList())
                 .isActive(user.getIsActive())
                 .build();
     }
+    private Snapshot toSnapshot(SnapshotEntity snapshotEntity) {
+
+        return Snapshot.builder()
+                .snapshotId(snapshotEntity.getId())
+                .answers(snapshotEntity.getAnswers().stream().map(snapshotAnswerEntity -> AnswerDTO.builder()
+                                .skillId(snapshotAnswerEntity.getSkill().getId())
+                                .skillName(snapshotAnswerEntity.getSkill().getName())
+                                .labelEnum(snapshotAnswerEntity.getSkill().getLabel().getLabel().toString())
+                                .rating(snapshotAnswerEntity.getRating())
+                                .willingToPresent(snapshotAnswerEntity.getWillingToPresent())
+                                .workedWithTech(snapshotAnswerEntity.getWorkedWithTech())
+                                .willingToAnswerQuestions(snapshotAnswerEntity.getWillingToAnswerQuestions())
+                                .level(parseLevelEnum(snapshotAnswerEntity.getRating()))
+                                .build())
+                        .toList()
+                )
+                .createdAt(snapshotEntity.getCreatedAt())
+                .build();
+    }
+
+    private LevelEnum parseLevelEnum(Long rating) {
+        if(rating > 0 && rating <= 2) return LevelEnum.LOW;
+        if(rating > 2 && rating <= 4) return LevelEnum.MED;
+        return LevelEnum.ADV;
+    }
+
     private UserEntity toUserEntity(UserDTO userDTO){
         return UserEntity.builder()
                 .name(userDTO.name())
