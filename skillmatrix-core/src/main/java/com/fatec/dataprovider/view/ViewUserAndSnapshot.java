@@ -1,5 +1,6 @@
 package com.fatec.dataprovider.view;
 
+import com.fatec.model.enums.LevelEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Immutable;
@@ -32,7 +33,7 @@ public class ViewUserAndSnapshot implements Serializable {
     private Long rating;
 
     @Column(name = "level")
-    private String level;
+    private LevelEnum level;
 
     @Column(name = "snapshot_id")
     private Long snapshotId;

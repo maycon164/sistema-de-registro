@@ -24,8 +24,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserSpecifications userSpecifications;
     public PaginatedUserResult getAllUsers(GetUsersDTO getUsersDTO){
-        Specification<UserEntity> spec = new UserSpecifications().buildSpecification(getUsersDTO);
+        Specification<UserEntity> spec = userSpecifications.buildSpecification(getUsersDTO);
         PageRequest pageRequest = PaginationUtils.getPageRequest(getUsersDTO.pageNumber());
         Page<User> pageableUsers = userRepository.findAll(spec, pageRequest).map(this::toUserModel);
 

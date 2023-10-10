@@ -9,21 +9,30 @@ import com.fatec.model.Skill;
 import com.fatec.model.enums.LabelEnum;
 import com.fatec.model.enums.LevelEnum;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
+@Component
+@Slf4j
 public class UserSpecifications {
 
     private final ViewUserSnapshotRepository viewUserSnapshotRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public Specification<UserEntity> buildSpecification(GetUsersDTO getUsersDTO){
         return Specification.where(searchFor(getUsersDTO.search()))
                 .and(searchForIsActive(getUsersDTO.active()))
@@ -31,7 +40,6 @@ public class UserSpecifications {
                 .and(hasLabels(getUsersDTO.labels()));
 
     }
-
     private Specification<UserEntity> searchFor(String search){
         if(isNull(search) || search.isEmpty()) return null;
 
@@ -67,23 +75,27 @@ public class UserSpecifications {
         };
     }
     private List<Long> withSkillFilters(List<SkillFilterDTO> filters) {
-        Specification<ViewUserAndSnapshot> spec  = (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
+        if(filters.isEmpty()) return null;
 
-            for (SkillFilterDTO filter : filters) {
-                Predicate filterPredicate = criteriaBuilder.and(
-                        criteriaBuilder.equal(root.get("skillId"), filter.id()),
-                        criteriaBuilder.equal(root.get("level"), filter.level())
-                );
-                predicates.add(filterPredicate);
-            }
+        log.info("Searching users by skills....");
 
-            // Combine all predicates with OR to create the WHERE clause
-            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
-        };
+        String firstParameter = "(skill_id = " + filters.get(0).id() + " and level = '"+ filters.get(0).level().toString() +"' )";
+        filters.remove(0);
+        String secondParameter = filters.stream().map(filter -> "or (skill_id = " + filter.id() + " and level = '"+ filter.level().toString() +"') ").collect(Collectors.joining());
+        Integer thirdParameter = filters.size() + 1;
+        String sql = """
+                select user_id from view_user_last_snapshot
+                where %s
+                	%s
+                group by snapshot_id, user_id
+                having count(snapshot_id) = %d
+                """.formatted(firstParameter, secondParameter, thirdParameter);
 
-        var result = viewUserSnapshotRepository.findAll(spec);
-        System.out.println(result);
-        return result.stream().map(ViewUserAndSnapshot::getUserId).toList();
+        List<Object> resultList = entityManager.createNativeQuery(sql).getResultList();
+
+        // Map the results to Long
+        return resultList.stream()
+                .map(result -> ((Number) result).longValue()) // Assuming user_id is of type Long
+                .toList();
     }
 }
