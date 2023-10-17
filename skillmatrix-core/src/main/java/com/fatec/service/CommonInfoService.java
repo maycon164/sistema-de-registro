@@ -49,5 +49,6 @@ public class CommonInfoService {
 
     private void setInformationSkills(InfoResponseDTO infoResponseDTO){
         infoResponseDTO.setQuantitySkills(skillRepository.count());
+        infoResponseDTO.setQuantityOfSkillsByLabel(commonInfoDao.getSkillInfoByLabel());
     }
 }

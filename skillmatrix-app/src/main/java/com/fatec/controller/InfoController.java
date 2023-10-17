@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("information")
+@RequestMapping("/information")
 @RequiredArgsConstructor
 @Tag(name = "info")
 public class InfoController {
