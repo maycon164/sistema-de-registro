@@ -12,6 +12,7 @@ import com.fatec.exceptions.UserNotFound;
 import com.fatec.model.Label;
 import com.fatec.model.Snapshot;
 import com.fatec.model.User;
+import com.fatec.model.enums.JobPositionEnum;
 import com.fatec.model.enums.LevelEnum;
 import com.fatec.model.paginated.PaginatedUserResult;
 import com.fatec.utils.PaginationUtils;
@@ -87,6 +88,7 @@ public class UserService {
                 .email(user.getEmail())
                 .role(user.getRole())
                 .label(new Label(user.getLabel().getId(), user.getLabel().getLabel(), null))
+                .jobPosition(JobPositionEnum.valueOf(user.getJobPosition()))
                 .snapshots(user.getSnapshots().stream().map(this::toSnapshot).toList())
                 .isActive(user.getIsActive())
                 .build();
@@ -122,7 +124,7 @@ public class UserService {
                 .name(userDTO.name())
                 .email(userDTO.email())
                 .isActive(true)
-                .label(new LabelEntity(userDTO.labelId(), null))
+                .jobPosition(userDTO.jobPosition())
                 .role(userDTO.role())
                 .build();
     }

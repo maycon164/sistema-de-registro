@@ -1,12 +1,9 @@
 package com.fatec.model;
 
-import com.fatec.dto.AnswerDTO;
-import com.fatec.model.enums.LabelEnum;
-import com.fatec.model.enums.LevelEnum;
+import com.fatec.model.enums.JobPositionEnum;
 import com.fatec.model.enums.RoleEnum;
 import lombok.Builder;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Builder
@@ -18,10 +15,11 @@ public record User(
         Label label,
         RoleEnum role,
         String picture,
+        JobPositionEnum jobPosition,
         List<Snapshot> snapshots
 
 ) {
     public User withPicture(String picture){
-        return new User(id(), name(), email(), isActive(), label(), role(), picture, null);
+        return new User(id(), name(), email(), isActive(), label(), role(), picture, jobPosition(), null);
     }
 }

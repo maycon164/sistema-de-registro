@@ -1,5 +1,6 @@
 package com.fatec.dataprovider.entities;
 
+import com.fatec.model.enums.JobPositionEnum;
 import com.fatec.model.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,9 @@ public class UserEntity {
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     private LocalDate createdAt;
+
+    @Column(name = "job_position")
+    private String jobPosition;
 
     @Column(name = "updated_at")
     @UpdateTimestamp

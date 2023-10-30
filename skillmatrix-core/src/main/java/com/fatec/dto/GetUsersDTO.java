@@ -6,7 +6,6 @@ import com.fatec.exceptions.SkillFilterException;
 import com.fatec.model.enums.LabelEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +19,9 @@ public record GetUsersDTO(
     Boolean isAdmin,
     Boolean active,
     String skills,
-    List<LabelEnum> labels
+    List<LabelEnum> labels,
+
+    String jobPosition
 ) {
     public List<SkillFilterDTO> getSkillFilter() {
         ObjectMapper objectMapper = new ObjectMapper();

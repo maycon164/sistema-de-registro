@@ -26,7 +26,6 @@ public class SnapshotService {
     private final SnapshotAnswerRepository snapshotAnswerRepository;
 
     public void saveSnapshot(User user, SnapshotDTO snapshotDTO){
-        System.out.println(user);
 
         try {
             List<SnapshotAnswerEntity> answers = snapshotDTO.answers().stream()

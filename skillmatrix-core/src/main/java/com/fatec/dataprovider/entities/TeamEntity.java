@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +37,10 @@ public class TeamEntity {
 
     @ManyToOne
     private ClientEntity client;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDate updatedAt;
 
     @ManyToMany
     @JoinTable(

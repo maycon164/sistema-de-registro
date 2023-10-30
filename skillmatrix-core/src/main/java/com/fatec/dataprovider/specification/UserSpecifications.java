@@ -6,6 +6,7 @@ import com.fatec.dataprovider.view.ViewUserAndSnapshot;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.SkillFilterDTO;
 import com.fatec.model.Skill;
+import com.fatec.model.enums.JobPositionEnum;
 import com.fatec.model.enums.LabelEnum;
 import com.fatec.model.enums.LevelEnum;
 import jakarta.persistence.EntityManager;
@@ -37,6 +38,7 @@ public class UserSpecifications {
         return Specification.where(searchFor(getUsersDTO.search()))
                 .and(searchForIsActive(getUsersDTO.active()))
                 .and(hasSkills(getUsersDTO.getSkillFilter()))
+                .and(hasPosition(getUsersDTO.jobPosition()))
                 .and(hasLabels(getUsersDTO.labels()));
 
     }
@@ -50,6 +52,14 @@ public class UserSpecifications {
             Predicate searchEmailPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), formattedSearch);
             return criteriaBuilder.or(searchEmailPredicate, searchNamePredicate);
         };
+    }
+
+
+    private Specification<UserEntity> hasPosition(String position) {
+
+        if(isNull(position) || position.isEmpty()) return null;
+        if(position.equals("ALL")) return null;
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("jobPosition"), position);
     }
 
     private Specification<UserEntity> searchForIsActive(Boolean isActive){
