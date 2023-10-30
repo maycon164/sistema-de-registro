@@ -22,12 +22,13 @@ import com.fatec.model.paginated.PaginatedUserResult;
 import com.fatec.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 
 @Service
@@ -100,13 +101,18 @@ public class UserService {
                     .build();
         }
 
+
+        List<SnapshotEntity> snapshotEntities= new ArrayList<>(user.getSnapshots());
+
+        snapshotEntities.sort((s1, s2) -> s2.getCreatedAt().compareTo(s1.getCreatedAt()));
+
         return User.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .jobPosition(user.getJobPosition())
-                .snapshots(user.getSnapshots().stream().map(this::toSnapshot).toList())
+                .snapshots(snapshotEntities.stream().map(this::toSnapshot).toList())
                 .team(team)
                 .isActive(user.getIsActive())
                 .build();

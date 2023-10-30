@@ -2,6 +2,7 @@ package com.fatec.controller;
 
 import com.fatec.dto.GetTeamsDTO;
 import com.fatec.dto.TeamDTO;
+import com.fatec.dto.TeamMembersDTO;
 import com.fatec.model.Team;
 import com.fatec.model.User;
 import com.fatec.model.paginated.PaginatedTeamResult;
@@ -49,16 +50,24 @@ public class TeamController {
         return ResponseEntity.ok(teamService.getAllTeamLeaders());
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Team> getTeamInfo(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.ok(teamService.getTeamInfo(id));
+    }
     @PostMapping
     public ResponseEntity<Team> addNewTeam(@Valid @RequestBody TeamDTO teamDTO){
         return ResponseEntity.ok(teamService.addTeam(teamDTO));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Team> updateTeam(@PathVariable(value = "id") Long id, @Valid @RequestBody TeamDTO teamDTO) {
+    public ResponseEntity<String> updateTeam(@PathVariable(value = "id") Long id, @Valid @RequestBody TeamDTO teamDTO) {
         return ResponseEntity.ok(teamService.updateTeam(id, teamDTO));
     }
 
+    @PutMapping("{id}/members")
+    public ResponseEntity<Team> updateTeamMembers(@PathVariable(value = "id") Long id, @Valid @RequestBody TeamMembersDTO teamDTO) {
+        return ResponseEntity.ok(teamService.updateTeamMembers(id, teamDTO));
+    }
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteTeam(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok(teamService.deactivateTeam(id));

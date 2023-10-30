@@ -7,6 +7,7 @@ import com.fatec.dataprovider.repository.UserRepository;
 import com.fatec.dataprovider.specification.TeamSpecification;
 import com.fatec.dto.GetTeamsDTO;
 import com.fatec.dto.TeamDTO;
+import com.fatec.dto.TeamMembersDTO;
 import com.fatec.exceptions.NotFound;
 import com.fatec.model.Team;
 import com.fatec.model.User;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -72,20 +74,60 @@ public class TeamService {
         return "Team has been deleted";
     }
 
-    public Team updateTeam(Long id, TeamDTO teamDTO){
+    public String updateTeam(Long id, TeamDTO teamDTO){
         TeamEntity team = teamRepository.findById(id).orElseThrow(()-> new NotFound("Team not found"));
         TeamEntity teamUpdated = toTeamEntity(teamDTO);
         teamUpdated.setId(id);
         teamRepository.save(teamUpdated);
-        return toTeamModel(teamUpdated);
+        return "Team Updated";
+    }
+
+    public Team updateTeamMembers(Long id, TeamMembersDTO teamDTO){
+        TeamEntity teamEntity = teamRepository.findById(id).orElseThrow(() -> new NotFound("Team not found"));
+
+        List<UserEntity> members = teamDTO.membersIds().stream()
+                .map(userId -> UserEntity.builder().id(userId).build())
+                .toList();
+
+        teamEntity.getMembers().clear();
+        teamEntity.getMembers().addAll(members);
+        teamRepository.save(teamEntity);
+        return toTeamModel(teamEntity);
+    }
+
+    public Team getTeamInfo(Long id) {
+        return toTeamModel(teamRepository.findById(id).orElseThrow(() -> new NotFound("Team not found!!")));
     }
 
     private Team toTeamModel(TeamEntity team){
+
+        User leader =null;
+        if(team.getLeader() != null){
+            leader = User.builder()
+                    .id(team.getLeader().getId())
+                    .email(team.getLeader().getEmail())
+                    .name(team.getLeader().getName()).build();
+        }
+
+        List<User> members = new ArrayList<>();
+        if(team.getMembers() != null) {
+            members.addAll(team.getMembers().stream().map(user -> User
+                    .builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .jobPosition(user.getJobPosition())
+                    .build()
+            ).toList());
+        }
+
         return new Team(
                 team.getId(),
                 team.getName(),
                 team.getDescription(),
-                team.getIsActive()
+                team.getIsActive(),
+                members,
+                leader
         );
     }
 
