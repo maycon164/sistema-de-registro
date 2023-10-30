@@ -32,7 +32,8 @@ public class JwtFilter extends OncePerRequestFilter {
             "/auth/login",
             "/swagger-ui",
             "/api-docs",
-            "/v3/api-docs"
+            "/v3/api-docs",
+            "/information/**"
     );
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

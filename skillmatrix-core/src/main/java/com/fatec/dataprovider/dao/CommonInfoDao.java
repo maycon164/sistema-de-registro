@@ -3,37 +3,39 @@ package com.fatec.dataprovider.dao;
 import com.fatec.dto.LabelSkillInfo;
 import com.fatec.dto.LabelUserInfo;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.springframework.stereotype.Service;
+import jakarta.persistence.Query;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
+@RequiredArgsConstructor
 public class CommonInfoDao {
 
-    public List<LabelUserInfo> getUserInfoByLabel(){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("persistence");
-        EntityManager entityManager = factory.createEntityManager();
+    private final EntityManager entityManager;
 
+    public List<LabelUserInfo> getUserInfoByLabel(){
         String sql = """
-                SELECT l.label, count(u.name) as users\s
+                SELECT l.label, count(u.name) as users
                 FROM label l
                 LEFT JOIN users u on l.id = u.label_id
                 GROUP BY l.label
-        """;
+            """;
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        List<Object[]> resultList = nativeQuery.getResultList();
 
-        List<Object[]> result = entityManager.createNativeQuery(sql).getResultList();
+        List<LabelUserInfo> infos = new ArrayList<>();
 
-        List<LabelUserInfo> labelUserInfos = new ArrayList<>();
+        for (Object[] result : resultList) {
+            String label = (String) result[0];
+            Long skillsCount = (Long) result[1];
 
-        for(Object[] line: result){
-
+            infos.add(new LabelUserInfo(label, skillsCount));
         }
 
-
-        return null;
+        return infos;
     }
 
     public List<LabelSkillInfo> getSkillInfoByLabel(){
@@ -43,8 +45,19 @@ public class CommonInfoDao {
                         LEFT JOIN skills s on l.id = s.label_id
                         GROUP BY l.label
                 """;
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        List<Object[]> resultList = nativeQuery.getResultList();
 
-        return null;
+        List<LabelSkillInfo> infos = new ArrayList<>();
+
+        for (Object[] result : resultList) {
+            String label = (String) result[0];
+            Long skillsCount = (Long) result[1];
+
+            infos.add(new LabelSkillInfo(label, skillsCount));
+        }
+
+        return infos;
     }
 
 }
