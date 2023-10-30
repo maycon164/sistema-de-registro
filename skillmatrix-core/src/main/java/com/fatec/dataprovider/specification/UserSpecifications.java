@@ -6,6 +6,8 @@ import com.fatec.dataprovider.view.ViewUserAndSnapshot;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.SkillFilterDTO;
 import com.fatec.model.Skill;
+import com.fatec.model.Team;
+import com.fatec.model.User;
 import com.fatec.model.enums.JobPositionEnum;
 import com.fatec.model.enums.LabelEnum;
 import com.fatec.model.enums.LevelEnum;
@@ -39,7 +41,8 @@ public class UserSpecifications {
                 .and(searchForIsActive(getUsersDTO.active()))
                 .and(hasSkills(getUsersDTO.getSkillFilter()))
                 .and(hasPosition(getUsersDTO.jobPosition()))
-                .and(hasLabels(getUsersDTO.labels()));
+                .and(hasLabels(getUsersDTO.labels()))
+                .and(inTeam(getUsersDTO.team()));
 
     }
     private Specification<UserEntity> searchFor(String search){
@@ -62,6 +65,13 @@ public class UserSpecifications {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("jobPosition"), position);
     }
 
+    private Specification<UserEntity> inTeam(Long teamId) {
+        if(teamId == null || teamId == 0) return null;
+        return (root, query, criteriaBuilder) -> {
+            Join<UserEntity, TeamEntity> team = root.join("team");
+            return criteriaBuilder.in(team.get("id")).value(teamId);
+        };
+    }
     private Specification<UserEntity> searchForIsActive(Boolean isActive){
         if(isNull(isActive)) return null;
 

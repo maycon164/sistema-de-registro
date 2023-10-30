@@ -15,8 +15,7 @@ public record UserDTO (
         String email,
         @NotNull
         RoleEnum role,
-        @NotNull
-        Long labelId,
+        String jobPosition,
 
-        String jobPosition
+        Long teamId
 ){ }

@@ -1,0 +1,2 @@
+ALTER TABLE teams
+    ADD COLUMN is_active BOOLEAN DEFAULT TRUE;

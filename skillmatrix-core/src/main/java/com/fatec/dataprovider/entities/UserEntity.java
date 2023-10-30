@@ -1,5 +1,6 @@
 package com.fatec.dataprovider.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fatec.model.enums.JobPositionEnum;
 import com.fatec.model.enums.RoleEnum;
 import jakarta.persistence.*;
@@ -53,6 +54,11 @@ public class UserEntity {
 
     @Column(name = "job_position")
     private String jobPosition;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private TeamEntity team;
 
     @Column(name = "updated_at")
     @UpdateTimestamp

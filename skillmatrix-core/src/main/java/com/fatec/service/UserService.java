@@ -2,15 +2,19 @@ package com.fatec.service;
 
 import com.fatec.dataprovider.entities.LabelEntity;
 import com.fatec.dataprovider.entities.SnapshotEntity;
+import com.fatec.dataprovider.entities.TeamEntity;
 import com.fatec.dataprovider.entities.UserEntity;
+import com.fatec.dataprovider.repository.TeamRepository;
 import com.fatec.dataprovider.repository.UserRepository;
 import com.fatec.dataprovider.specification.UserSpecifications;
 import com.fatec.dto.AnswerDTO;
 import com.fatec.dto.GetUsersDTO;
 import com.fatec.dto.UserDTO;
+import com.fatec.exceptions.NotFound;
 import com.fatec.exceptions.UserNotFound;
 import com.fatec.model.Label;
 import com.fatec.model.Snapshot;
+import com.fatec.model.Team;
 import com.fatec.model.User;
 import com.fatec.model.enums.JobPositionEnum;
 import com.fatec.model.enums.LevelEnum;
@@ -33,6 +37,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserSpecifications userSpecifications;
+    private final TeamRepository teamRepository;
     public PaginatedUserResult getAllUsers(GetUsersDTO getUsersDTO){
         Specification<UserEntity> spec = userSpecifications.buildSpecification(getUsersDTO);
         PageRequest pageRequest = PaginationUtils.getPageRequest(getUsersDTO.pageNumber());
@@ -56,6 +61,7 @@ public class UserService {
 
     public UserEntity insertNewUser(UserDTO createUserDTO){
         log.info("User Created in internal Database");
+
         return userRepository.save(toUserEntity(createUserDTO));
     }
 
@@ -64,7 +70,10 @@ public class UserService {
 
         user.setName(updateUserDTO.name());
         user.setEmail(updateUserDTO.email());
-        user.setLabel(new LabelEntity(updateUserDTO.labelId(), null));
+        user.setJobPosition(updateUserDTO.jobPosition());
+
+        TeamEntity teamEntity = teamRepository.findById(updateUserDTO.teamId()).orElseThrow(() -> new NotFound("Team not found!"));
+        user.setTeam(teamEntity);
 
         return userRepository.save(user);
     }
@@ -82,14 +91,23 @@ public class UserService {
     }
 
     private User toUserModel(UserEntity user){
+        Team team = null;
+
+        if(user.getTeam() != null) {
+            team = Team.builder()
+                    .id(user.getTeam().getId())
+                    .name(user.getTeam().getName())
+                    .build();
+        }
+
         return User.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .role(user.getRole())
-                .label(new Label(user.getLabel().getId(), user.getLabel().getLabel(), null))
-                .jobPosition(JobPositionEnum.valueOf(user.getJobPosition()))
+                .jobPosition(user.getJobPosition())
                 .snapshots(user.getSnapshots().stream().map(this::toSnapshot).toList())
+                .team(team)
                 .isActive(user.getIsActive())
                 .build();
     }
@@ -120,10 +138,14 @@ public class UserService {
     }
 
     private UserEntity toUserEntity(UserDTO userDTO){
+
+        TeamEntity teamEntity = teamRepository.findById(userDTO.teamId()).orElseThrow(() -> new NotFound("Team not found"));
+
         return UserEntity.builder()
                 .name(userDTO.name())
                 .email(userDTO.email())
                 .isActive(true)
+                .team(teamEntity)
                 .jobPosition(userDTO.jobPosition())
                 .role(userDTO.role())
                 .build();

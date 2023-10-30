@@ -1,3 +1,6 @@
 package com.fatec.model;
 
-public record Team (Long id, String name) { }
+import lombok.Builder;
+
+@Builder
+public record Team (Long id, String name, String description, boolean active) { }

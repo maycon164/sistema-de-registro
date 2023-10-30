@@ -1,9 +1,7 @@
 package com.fatec.dataprovider.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class TeamEntity {
 
     @Id
@@ -32,6 +31,9 @@ public class TeamEntity {
     @CreationTimestamp
     private Date createdAt;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     @ManyToOne
     private UserEntity leader;
 
@@ -42,11 +44,12 @@ public class TeamEntity {
     @UpdateTimestamp
     private LocalDate updatedAt;
 
-    @ManyToMany
-    @JoinTable(
-            name = "team_member",
-            joinColumns = @JoinColumn(name = "team_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @OneToMany
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
     private List<UserEntity> members;
+
+    @Override
+    public String toString() {
+        return "OVERRIDE METHOD TO STRING";
+    }
 }

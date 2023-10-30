@@ -21,7 +21,8 @@ public record GetUsersDTO(
     String skills,
     List<LabelEnum> labels,
 
-    String jobPosition
+    String jobPosition,
+    Long team
 ) {
     public List<SkillFilterDTO> getSkillFilter() {
         ObjectMapper objectMapper = new ObjectMapper();

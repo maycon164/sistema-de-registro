@@ -15,11 +15,12 @@ public record User(
         Label label,
         RoleEnum role,
         String picture,
-        JobPositionEnum jobPosition,
-        List<Snapshot> snapshots
+        String jobPosition,
+        List<Snapshot> snapshots,
+        Team team
 
 ) {
     public User withPicture(String picture){
-        return new User(id(), name(), email(), isActive(), label(), role(), picture, jobPosition(), null);
+        return new User(id(), name(), email(), isActive(), label(), role(), picture, jobPosition(), null, null);
     }
 }
