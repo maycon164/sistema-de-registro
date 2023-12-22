@@ -1,10 +1,8 @@
-# SKILL MATRIX API
-THIS IS THE REPO OF SKILL MATRIX API
+# Sistema de registro
 
-### SETUP THE PROJECT
-first you need to create a database on the postgres database
-
-then you need to set some environment variables
+### Setup do projeto
+java 17
+postgres 14
 
 <table>
     <thead>
@@ -14,7 +12,7 @@ then you need to set some environment variables
     <tbody>
         <tr>
             <td>DB_URL</td>
-            <td>jdbc:postgresql://localhost:5432/skillMatrixJava</td>
+            <td>jdbc:postgresql://localhost:5432/database</td>
         </tr>
         <tr>
             <td>DB_USERNAME</td>
