@@ -66,7 +66,7 @@ public class UserService {
         return userRepository.save(toUserEntity(createUserDTO));
     }
 
-    public UserEntity updateUser(Long id, UserDTO updateUserDTO) {
+    public String updateUser(Long id, UserDTO updateUserDTO) {
         var user = userRepository.findById(id).orElseThrow(UserNotFound::new);
 
         user.setName(updateUserDTO.name());
@@ -76,7 +76,8 @@ public class UserService {
         TeamEntity teamEntity = teamRepository.findById(updateUserDTO.teamId()).orElseThrow(() -> new NotFound("Team not found!"));
         user.setTeam(teamEntity);
 
-        return userRepository.save(user);
+        userRepository.save(user);
+        return "user updated";
     }
 
     public String deleteUser(Long id){

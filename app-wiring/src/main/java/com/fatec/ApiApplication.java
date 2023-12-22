@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SkillMatrixApiApplication {
+public class ApiApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SkillMatrixApiApplication.class,args);
+        SpringApplication.run(ApiApplication.class,args);
     }
 }

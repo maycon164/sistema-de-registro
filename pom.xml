@@ -15,8 +15,8 @@
     <name>skill-matrix</name>
 	<description>Skill Matrix - Mapping Skills and Snapshots</description>
     <modules>
-        <module>skillmatrix-core</module>
-		<module>skillmatrix-app</module>
+        <module>app-core</module>
+		<module>app-wiring</module>
 	</modules>
     <properties>
 		<java.version>17</java.version>

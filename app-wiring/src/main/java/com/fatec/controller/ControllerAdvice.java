@@ -23,6 +23,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler(NotFound.class)
     public ResponseEntity<ErrorDTO>  handleNotFoundException(NotFound ex) {
+        System.out.println(ex);
         return new ResponseEntity<ErrorDTO>(new ErrorDTO(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 }

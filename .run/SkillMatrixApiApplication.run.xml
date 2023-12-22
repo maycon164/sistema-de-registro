@@ -10,8 +10,8 @@
       <env name="PROFILE" value="DEV" />
       <env name="URL_FRONTEND" value="http://localhost:5173" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="com.fatec.SkillMatrixApiApplication" />
-    <module name="skillmatrix-app" />
+    <option name="MAIN_CLASS_NAME" value="com.fatec.ApiApplication" />
+    <module name="app-wiring" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
